@@ -17,3 +17,4 @@ C:\1_Lavanya\Workspace\ABBAsignment\TBS_Sales_Suit_App\obj\Release\TBS_Sales_Sui
 C:\1_Lavanya\Workspace\ABBAsignment\TBS_Sales_Suit_App\obj\Release\TBS_Sales_Suit_App.csproj.CopyComplete
 C:\1_Lavanya\Workspace\ABBAsignment\TBS_Sales_Suit_App\obj\Release\TBS_Sales_Suit_App.exe
 C:\1_Lavanya\Workspace\ABBAsignment\TBS_Sales_Suit_App\obj\Release\TBS_Sales_Suit_App.pdb
+C:\1_Lavanya\Workspace\ABBAsignment\TBS_Sales_Suit_App\obj\Release\TBS_Sales_Suit_App.csprojAssemblyReference.cache

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using iTextSharp.xmp.properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -29,10 +31,17 @@ namespace TBS_Sales_Suit_App
         {
             //IHelper excelHelper = new ExcelHelper(tbsRepository);
             //excelHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord1.xlsx");
-
-            if (tbsRepository.GetUsers().Count == 0)
+            try
             {
-                tbsRepository.AddUsers();
+                if (tbsRepository.GetUsers().Count == 0)
+                {
+                    tbsRepository.AddUsers();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "SQL Connection ", MessageBoxButtons.OK);
+                Application.Exit();
             }
         }
 
