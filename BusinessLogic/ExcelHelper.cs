@@ -244,10 +244,6 @@ namespace TBS_Sales_Suit_App.BusinessLogic
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
-                //rule of thumb for releasing com objects:
-                //  never use two dots, all COM objects must be referenced and released individually
-                //  ex: [somthing].[something].[something] is bad
-
                 //release com objects to fully kill excel process from running in the background
                 Marshal.ReleaseComObject(xlRange);
                 Marshal.ReleaseComObject(xlWorksheets);

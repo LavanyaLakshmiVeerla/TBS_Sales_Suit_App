@@ -18,7 +18,7 @@ namespace TBS_Sales_Suit_App
 {
     public partial class WelcomeScreen : Form
     {
-        TBSDbContext tbsDbContext;
+        IContext tbsDbContext;
         TBSRepository tbsRepository;
         public WelcomeScreen()
         {
@@ -29,8 +29,6 @@ namespace TBS_Sales_Suit_App
 
         private void WelcomeScreen_Load(object sender, EventArgs e)
         {
-            //IHelper excelHelper = new ExcelHelper(tbsRepository);
-            //excelHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord1.xlsx");
             try
             {
                 if (tbsRepository.GetUsers().Count == 0)

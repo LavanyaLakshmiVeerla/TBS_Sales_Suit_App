@@ -16,9 +16,9 @@ namespace TBS_Sales_Suit_App.BusinessLogic
         private TBSDbContext _tbsDbContext;
         private int _currentCustomerID = 0;
         private double newMembershipDisc = 0;
-        public TBSRepository(TBSDbContext tbsDbContext)
+        public TBSRepository(IContext tbsDbContext)
         {
-            this._tbsDbContext = tbsDbContext;
+            this._tbsDbContext = (TBSDbContext)tbsDbContext;
         }
         
 
@@ -27,8 +27,7 @@ namespace TBS_Sales_Suit_App.BusinessLogic
             foreach (Customer customer in customersList)
             {
                 this._tbsDbContext.Customers.Add(customer);                
-            }
-            //this._tbsDbContext.Entry(Customer).State = EntityState.Modified;
+            } 
             this._tbsDbContext.SaveChanges();
         }
 
@@ -83,6 +82,169 @@ namespace TBS_Sales_Suit_App.BusinessLogic
         public List<SalesRecord> GetSalesRecords()
         {
             return this._tbsDbContext.SalesRecords.ToList();
+        }
+
+        public double GetDiscountPercentValue(Customer customer, double totalUnbilledAmount)
+        {
+            double discountPercent = 0;
+            bool isExistingCustomer = false;
+            int totalNoOfPurchases = 0;
+            double totalAmtSoFar = 0.0;
+            DateTime memberSince;
+            DateTime membershipValidUntil;
+
+            List<SalesRecord> currentSalesRecords = GetSalesRecords();
+            foreach (SalesRecord record in currentSalesRecords)
+            {
+                if (record.Customer.Name.Equals(customer.Name) &&
+                    record.Customer.ContactNumber.Equals(customer.ContactNumber))
+                {
+                    isExistingCustomer = true;
+                    totalNoOfPurchases++;
+                    totalAmtSoFar += record.TotalCostAfterDiscount;
+                }
+            }
+
+            if (customer.MemberSince != null && customer.ValidityExpiryDate != null)
+            {
+                memberSince = customer.MemberSince.Value;
+                membershipValidUntil = customer.ValidityExpiryDate.Value;
+                DateTime today = DateTime.Now;
+
+                int noOfYears = today.Year - memberSince.Year;
+                if (noOfYears >= 5)
+                {
+                    discountPercent = 0.2;
+                    return discountPercent;
+                }
+            }
+
+            if (isExistingCustomer)
+            {
+                DateTime today = DateTime.Now;
+                int birthdayMonth = customer.DateOfBirth.Month;
+                int currentMonth = today.Month;
+                if (currentMonth == birthdayMonth)
+                {
+                    discountPercent = 0.2;
+                    return discountPercent;
+                }
+
+                if (totalAmtSoFar > 6000)
+                {
+                    discountPercent = 0.05;
+                    return discountPercent;
+                }
+
+                if (totalNoOfPurchases > 5)
+                {
+                    discountPercent = 0.03;
+                    return discountPercent;
+                }
+            }
+            else
+            {
+                if (totalUnbilledAmount > 5000)
+                {
+                    discountPercent = 0.03;
+                    return discountPercent;
+                }
+                else
+                {
+                    discountPercent = 0.02;
+                    return discountPercent;
+                }
+            }
+            return discountPercent;
+        }
+
+        public void ImportData(string inputFileType)
+        {
+            switch (inputFileType)
+            {
+                case "EXCEL":
+                    {
+                        try
+                        {
+                            IHelper excelHelper = new ExcelHelper(this);
+                            string filePath = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStoreExcelData.xlsx");
+                            excelHelper.ImportData(filePath);
+                            MessageBox.Show("Excel Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Excel Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "CSV":
+                    {
+                        try
+                        {
+                            IHelper csvHelper = new CSVHelper(this);
+                            string customersFile = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStore_CustomersCsv.csv");
+                            string booksFile = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStore_BooksCsv.csv");
+                            string purHistoryFile = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStore_PurchasehistoryCsv.csv");
+                            csvHelper.ImportData(customersFile);
+                            csvHelper.ImportData(booksFile);
+                            csvHelper.ImportData(purHistoryFile);
+                            MessageBox.Show("CSV Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("CSV Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "XML":
+                    {
+                        try
+                        {
+                            MessageBox.Show("To be implemented", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //IHelper xmlHelper = new XMLHelper(tbsRepository);
+                            //xmlHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord1.xml");
+                            //MessageBox.Show("XML Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("XML Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "JSON":
+                    {
+                        try
+                        {
+                            MessageBox.Show("To be implemented", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //IHelper jsonHelper = new JSONHelper(tbsRepository);
+                            //jsonHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord1.json");
+
+                            //MessageBox.Show("JSON Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("JSON Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "TEXT":
+                    {
+                        try
+                        {
+                            MessageBox.Show("To be implemented", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //IHelper textHelper = new TextHelper(tbsRepository);
+                            //textHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord.txt");
+                            //MessageBox.Show("Text Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Text Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         public User ValidateUser(User loggedInUser)

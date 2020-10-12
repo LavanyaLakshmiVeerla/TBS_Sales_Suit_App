@@ -16,7 +16,7 @@ namespace TBS_Sales_Suit_App.Presentation
 {
     public partial class MainForm : Form
     {
-        TBSDbContext tbsDbContext;
+        IContext tbsDbContext;
         TBSRepository tbsRepository;
         List<Book> books;
         List<Book> booksPurchased = new List<Book>();
@@ -75,91 +75,7 @@ namespace TBS_Sales_Suit_App.Presentation
         {
             if(cbxInputFormat.SelectedItem != null)
             {
-                switch(cbxInputFormat.SelectedItem.ToString())
-                {
-                    case "EXCEL":
-                        {
-                            try
-                            {
-                                IHelper excelHelper = new ExcelHelper(tbsRepository);
-                                string filePath = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStoreExcelData.xlsx");
-                                excelHelper.ImportData(filePath);
-                                MessageBox.Show("Excel Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            catch(Exception ex)
-                            {
-                                MessageBox.Show("Excel Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        break;
-                    case "CSV":
-                        {
-                            try
-                            {
-                                IHelper csvHelper = new CSVHelper(tbsRepository);
-                                string customersFile = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStore_CustomersCsv.csv");
-                                string booksFile = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStore_BooksCsv.csv");
-                                string purHistoryFile = System.IO.Path.Combine(Environment.CurrentDirectory, "TwinkleBookStore_PurchasehistoryCsv.csv");
-                                csvHelper.ImportData(customersFile);
-                                csvHelper.ImportData(booksFile);
-                                csvHelper.ImportData(purHistoryFile);
-                                MessageBox.Show("CSV Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("CSV Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }                            
-                        }
-                        break;
-                    case "XML":
-                        {
-                            try
-                            {
-                                MessageBox.Show("To be implemented", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                //IHelper xmlHelper = new XMLHelper(tbsRepository);
-                                //xmlHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord1.xml");
-                                //MessageBox.Show("XML Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("XML Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        break;
-                    case "JSON":
-                        {
-                            try
-                            {
-                                MessageBox.Show("To be implemented", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                //IHelper jsonHelper = new JSONHelper(tbsRepository);
-                                //jsonHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord1.json");
-
-                                //MessageBox.Show("JSON Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("JSON Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        break;
-                    case "TEXT":
-                        {
-                            try
-                            {
-                                MessageBox.Show("To be implemented", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                //IHelper textHelper = new TextHelper(tbsRepository);
-                                //textHelper.ImportData(@"C:\1_Lavanya\Workspace\ABBAsignment\Files\TwinkleBookStoreRecord.txt");
-                                //MessageBox.Show("Text Data imported successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("Text Data imported failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                this.tbsRepository.ImportData(cbxInputFormat.SelectedItem.ToString());
             }
         }
 
@@ -222,11 +138,6 @@ namespace TBS_Sales_Suit_App.Presentation
                     customer.MemberSince = memSince;
                 }
 
-                //if (!string.IsNullOrEmpty(txtBxFeePaidAdd.Text))
-                //{
-                //    customer.MembershipFeesPaid = Convert.ToDouble(txtBxFeePaidInfo.Text);
-                //}
-
                 DateTime validity;
                 if (DateTime.TryParse(txtBxValidityAdd.Text, out validity))
                 {
@@ -265,11 +176,6 @@ namespace TBS_Sales_Suit_App.Presentation
                 customer.MemberSince = memSince;
             }
 
-            //if (!string.IsNullOrEmpty(txtBxFeePaidInfo.Text))
-            //{
-            //    customer.MembershipFeesPaid = Convert.ToDouble(txtBxFeePaidInfo.Text);
-            //}
-
             DateTime validity;
             if (DateTime.TryParse(txtBxValidityInfo.Text, out validity))
             {
@@ -277,6 +183,7 @@ namespace TBS_Sales_Suit_App.Presentation
             }           
 
             this.tbsRepository.UpdateCustomerInfo(customer);
+            MessageBox.Show("Updated customer information successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnSalesAddBook_Click(object sender, EventArgs e)
@@ -326,6 +233,10 @@ namespace TBS_Sales_Suit_App.Presentation
                     this.txtBxSalesCNameDisplay.Text = customer.Name;
                     currentCustomer = customer;
                 }
+                else
+                {
+                    MessageBox.Show("No records found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
             {
@@ -333,79 +244,7 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
-        private double GetDiscountPercentValue(Customer customer, double totalUnbilledAmount)
-        {
-            double discountPercent = 0;
-            bool isExistingCustomer = false;
-            int totalNoOfPurchases = 0;
-            double totalAmtSoFar = 0.0;
-            DateTime memberSince;
-            DateTime membershipValidUntil;
-
-            List<SalesRecord> currentSalesRecords = this.tbsRepository.GetSalesRecords();
-            foreach(SalesRecord record in currentSalesRecords)
-            {
-                if(record.Customer.Name.Equals(customer.Name) &&
-                    record.Customer.ContactNumber.Equals(customer.ContactNumber))
-                {
-                    isExistingCustomer = true;
-                    totalNoOfPurchases++;
-                    totalAmtSoFar += record.TotalCostAfterDiscount;                    
-                }
-            }
-
-            if(customer.MemberSince != null && customer.ValidityExpiryDate != null)
-            {
-                memberSince = customer.MemberSince.Value;
-                membershipValidUntil = customer.ValidityExpiryDate.Value;
-                DateTime today = DateTime.Now;
-
-                int noOfYears = today.Year - memberSince.Year;
-                if(noOfYears >= 5)
-                {
-                    discountPercent = 0.2;
-                    return discountPercent;
-                }
-            }             
-
-            if(isExistingCustomer)
-            {
-                DateTime today = DateTime.Now;
-                int birthdayMonth = customer.DateOfBirth.Month;
-                int currentMonth = today.Month;
-                if(currentMonth == birthdayMonth)
-                {
-                    discountPercent = 0.2;
-                    return discountPercent;
-                }
-
-                if(totalAmtSoFar > 6000)
-                {
-                    discountPercent = 0.05;
-                    return discountPercent;
-                }
-
-                if (totalNoOfPurchases > 5)
-                {
-                    discountPercent = 0.03;
-                    return discountPercent;
-                }
-            }
-            else
-            {
-                if (totalUnbilledAmount > 5000)
-                {
-                    discountPercent = 0.03;
-                    return discountPercent;
-                }
-                else
-                {
-                    discountPercent = 0.02;
-                    return discountPercent;
-                }
-            }
-            return discountPercent;
-        }
+        
 
         private void btnSalesPrepareBill_Click(object sender, EventArgs e)
         {
@@ -413,6 +252,11 @@ namespace TBS_Sales_Suit_App.Presentation
             {
                 SalesRecord newRecord = new SalesRecord();
                 List<SaleItemDetails> itemDetailsList = new List<SaleItemDetails>();
+                if(currentCustomer == null)
+                {
+                    MessageBox.Show("Enter Customer Name or Contact and Get Customer to add a purchase", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 newRecord.Customer = currentCustomer;
                 newRecord.DateOfPurchase = DateTime.Now;
                 double newMembershipDiscount = 0;
@@ -432,7 +276,7 @@ namespace TBS_Sales_Suit_App.Presentation
                     newRecord.TotalCostBeforeDiscount += newItem.TotalCost;                    
                 }
 
-                double calculatedDiscountPercent = GetDiscountPercentValue(newRecord.Customer, newRecord.TotalCostBeforeDiscount);     
+                double calculatedDiscountPercent = this.tbsRepository.GetDiscountPercentValue(newRecord.Customer, newRecord.TotalCostBeforeDiscount);     
                 if (!string.IsNullOrEmpty(txtBxSalesMemFees.Text))
                 {
                     newRecord.MembershipFeesPaid = Convert.ToDouble(txtBxSalesMemFees.Text);
@@ -470,7 +314,7 @@ namespace TBS_Sales_Suit_App.Presentation
                 
                 this.txtBxSalesNoIP.Text = newRecord.NoOfItemsPurchased.ToString();
                 this.txtBxSalesTotalCost.Text = newRecord.TotalCostBeforeDiscount.ToString();
-                this.txtBxSalesDiscPercent.Text = newRecord.DiscountPercent.ToString();
+                this.txtBxSalesDiscPercent.Text = (newRecord.DiscountPercent * 100).ToString();
                 this.txtBxSalesAfterDisc.Text = newRecord.TotalCostAfterDiscount.ToString();
                 this.txtBxSalesMemFees.Text = newRecord.MembershipFeesPaid.ToString();
                 this.txtBxSalesFinalBill.Text = newRecord.FinalBillAmount.ToString();

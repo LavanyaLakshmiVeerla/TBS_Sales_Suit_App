@@ -8,7 +8,7 @@ using TBS_Sales_Suit_App.BusinessLogic;
 
 namespace TBS_Sales_Suit_App.DataAccess
 {
-    public class TBSDbContext : DbContext //, IContext
+    public class TBSDbContext : DbContext , IContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<User> Users { get; set; }
