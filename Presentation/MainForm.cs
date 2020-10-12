@@ -359,5 +359,11 @@ namespace TBS_Sales_Suit_App.Presentation
                 this.txtBxSalesDiscPercent.ReadOnly = true;
             }
         }
+
+        private void btnGenerateReport_Click(object sender, EventArgs e)
+        {
+            GenerateReport report = new GenerateReport(tbsDbContext);
+            report.GeneratePDFReport();
+        }
     }
 }

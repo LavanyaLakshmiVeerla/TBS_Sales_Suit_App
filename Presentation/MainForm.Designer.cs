@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.tabMenu = new System.Windows.Forms.TabControl();
+            this.tabImpExp = new System.Windows.Forms.TabPage();
+            this.lblInputFormat = new System.Windows.Forms.Label();
+            this.cbxInputFormat = new System.Windows.Forms.ComboBox();
+            this.btnImport = new System.Windows.Forms.Button();
             this.tabCustomerAdd = new System.Windows.Forms.TabPage();
             this.txtBxValidityAdd = new System.Windows.Forms.TextBox();
             this.txtBxMemSinceAdd = new System.Windows.Forms.TextBox();
@@ -73,6 +77,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabSales = new System.Windows.Forms.TabPage();
+            this.txtBxSalesDiscPercent = new System.Windows.Forms.TextBox();
+            this.btnReset = new System.Windows.Forms.Button();
             this.txtBxSalesFinalBill = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.txtBxSalesMemFees = new System.Windows.Forms.TextBox();
@@ -96,19 +102,14 @@
             this.btnSalesGetCustomer = new System.Windows.Forms.Button();
             this.txtBxSaleCName = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.tabImpExp = new System.Windows.Forms.TabPage();
-            this.lblInputFormat = new System.Windows.Forms.Label();
-            this.cbxInputFormat = new System.Windows.Forms.ComboBox();
-            this.btnImport = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.txtBxSalesDiscPercent = new System.Windows.Forms.TextBox();
+            this.btnGenerateReport = new System.Windows.Forms.Button();
             this.tabMenu.SuspendLayout();
+            this.tabImpExp.SuspendLayout();
             this.tabCustomerAdd.SuspendLayout();
             this.tabCustomerView.SuspendLayout();
             this.tabSales.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSalesBooks)).BeginInit();
-            this.tabImpExp.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMenu
@@ -122,6 +123,52 @@
             this.tabMenu.SelectedIndex = 0;
             this.tabMenu.Size = new System.Drawing.Size(800, 446);
             this.tabMenu.TabIndex = 0;
+            // 
+            // tabImpExp
+            // 
+            this.tabImpExp.Controls.Add(this.btnGenerateReport);
+            this.tabImpExp.Controls.Add(this.lblInputFormat);
+            this.tabImpExp.Controls.Add(this.cbxInputFormat);
+            this.tabImpExp.Controls.Add(this.btnImport);
+            this.tabImpExp.Location = new System.Drawing.Point(4, 22);
+            this.tabImpExp.Name = "tabImpExp";
+            this.tabImpExp.Size = new System.Drawing.Size(792, 420);
+            this.tabImpExp.TabIndex = 2;
+            this.tabImpExp.Text = "Import/Export";
+            this.tabImpExp.UseVisualStyleBackColor = true;
+            // 
+            // lblInputFormat
+            // 
+            this.lblInputFormat.AutoSize = true;
+            this.lblInputFormat.Location = new System.Drawing.Point(59, 68);
+            this.lblInputFormat.Name = "lblInputFormat";
+            this.lblInputFormat.Size = new System.Drawing.Size(108, 13);
+            this.lblInputFormat.TabIndex = 2;
+            this.lblInputFormat.Text = "Choose Input format :";
+            // 
+            // cbxInputFormat
+            // 
+            this.cbxInputFormat.FormattingEnabled = true;
+            this.cbxInputFormat.Items.AddRange(new object[] {
+            "EXCEL",
+            "CSV",
+            "XML",
+            "JSON",
+            "TEXT"});
+            this.cbxInputFormat.Location = new System.Drawing.Point(204, 65);
+            this.cbxInputFormat.Name = "cbxInputFormat";
+            this.cbxInputFormat.Size = new System.Drawing.Size(121, 21);
+            this.cbxInputFormat.TabIndex = 1;
+            // 
+            // btnImport
+            // 
+            this.btnImport.Location = new System.Drawing.Point(350, 63);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(75, 23);
+            this.btnImport.TabIndex = 0;
+            this.btnImport.Text = "Import data";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // tabCustomerAdd
             // 
@@ -557,6 +604,23 @@
             this.tabSales.Text = "Add Purchase";
             this.tabSales.UseVisualStyleBackColor = true;
             // 
+            // txtBxSalesDiscPercent
+            // 
+            this.txtBxSalesDiscPercent.Location = new System.Drawing.Point(496, 296);
+            this.txtBxSalesDiscPercent.Name = "txtBxSalesDiscPercent";
+            this.txtBxSalesDiscPercent.Size = new System.Drawing.Size(177, 20);
+            this.txtBxSalesDiscPercent.TabIndex = 31;
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(591, 25);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(82, 23);
+            this.btnReset.TabIndex = 30;
+            this.btnReset.Text = "Reset All";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // txtBxSalesFinalBill
             // 
             this.txtBxSalesFinalBill.Location = new System.Drawing.Point(496, 381);
@@ -757,51 +821,6 @@
             this.label20.TabIndex = 5;
             this.label20.Text = "Enter Customer Name or Contact Number :";
             // 
-            // tabImpExp
-            // 
-            this.tabImpExp.Controls.Add(this.lblInputFormat);
-            this.tabImpExp.Controls.Add(this.cbxInputFormat);
-            this.tabImpExp.Controls.Add(this.btnImport);
-            this.tabImpExp.Location = new System.Drawing.Point(4, 22);
-            this.tabImpExp.Name = "tabImpExp";
-            this.tabImpExp.Size = new System.Drawing.Size(792, 420);
-            this.tabImpExp.TabIndex = 2;
-            this.tabImpExp.Text = "Import/Export";
-            this.tabImpExp.UseVisualStyleBackColor = true;
-            // 
-            // lblInputFormat
-            // 
-            this.lblInputFormat.AutoSize = true;
-            this.lblInputFormat.Location = new System.Drawing.Point(59, 68);
-            this.lblInputFormat.Name = "lblInputFormat";
-            this.lblInputFormat.Size = new System.Drawing.Size(108, 13);
-            this.lblInputFormat.TabIndex = 2;
-            this.lblInputFormat.Text = "Choose Input format :";
-            // 
-            // cbxInputFormat
-            // 
-            this.cbxInputFormat.FormattingEnabled = true;
-            this.cbxInputFormat.Items.AddRange(new object[] {
-            "EXCEL",
-            "CSV",
-            "XML",
-            "JSON",
-            "TEXT"});
-            this.cbxInputFormat.Location = new System.Drawing.Point(204, 65);
-            this.cbxInputFormat.Name = "cbxInputFormat";
-            this.cbxInputFormat.Size = new System.Drawing.Size(121, 21);
-            this.cbxInputFormat.TabIndex = 1;
-            // 
-            // btnImport
-            // 
-            this.btnImport.Location = new System.Drawing.Point(204, 117);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(75, 23);
-            this.btnImport.TabIndex = 0;
-            this.btnImport.Text = "Import data";
-            this.btnImport.UseVisualStyleBackColor = true;
-            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
             // btnLogout
             // 
             this.btnLogout.Location = new System.Drawing.Point(718, 12);
@@ -812,22 +831,15 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // btnReset
+            // btnGenerateReport
             // 
-            this.btnReset.Location = new System.Drawing.Point(591, 25);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(82, 23);
-            this.btnReset.TabIndex = 30;
-            this.btnReset.Text = "Reset All";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // txtBxSalesDiscPercent
-            // 
-            this.txtBxSalesDiscPercent.Location = new System.Drawing.Point(496, 296);
-            this.txtBxSalesDiscPercent.Name = "txtBxSalesDiscPercent";
-            this.txtBxSalesDiscPercent.Size = new System.Drawing.Size(177, 20);
-            this.txtBxSalesDiscPercent.TabIndex = 31;
+            this.btnGenerateReport.Location = new System.Drawing.Point(204, 227);
+            this.btnGenerateReport.Name = "btnGenerateReport";
+            this.btnGenerateReport.Size = new System.Drawing.Size(121, 23);
+            this.btnGenerateReport.TabIndex = 3;
+            this.btnGenerateReport.Text = "Generate TBS Report";
+            this.btnGenerateReport.UseVisualStyleBackColor = true;
+            this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
             // 
             // MainForm
             // 
@@ -841,6 +853,8 @@
             this.Text = "TBS Sales Suit";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabMenu.ResumeLayout(false);
+            this.tabImpExp.ResumeLayout(false);
+            this.tabImpExp.PerformLayout();
             this.tabCustomerAdd.ResumeLayout(false);
             this.tabCustomerAdd.PerformLayout();
             this.tabCustomerView.ResumeLayout(false);
@@ -848,8 +862,6 @@
             this.tabSales.ResumeLayout(false);
             this.tabSales.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSalesBooks)).EndInit();
-            this.tabImpExp.ResumeLayout(false);
-            this.tabImpExp.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -931,5 +943,6 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TextBox txtBxSalesDiscPercent;
+        private System.Windows.Forms.Button btnGenerateReport;
     }
 }
