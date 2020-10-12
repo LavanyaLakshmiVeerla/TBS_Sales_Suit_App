@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TBS_Sales_Suit_App.BusinessLogic
 {
+    /// <summary>
+    /// Class to declare the properties of a Purchase record or sale
+    /// </summary>
     public class SalesRecord
     {
         public int ID { get; set; }

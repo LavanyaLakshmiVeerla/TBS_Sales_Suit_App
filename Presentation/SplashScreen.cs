@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace TBS_Sales_Suit_App.Presentation
 {
+    /// <summary>
+    /// Class to display splash screen on app load
+    /// </summary>
     public partial class SplashScreen : Form
     {
         public SplashScreen()

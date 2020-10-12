@@ -9,15 +9,25 @@ using TBS_Sales_Suit_App.DataAccess;
 
 namespace TBS_Sales_Suit_App.BusinessLogic
 {
+    /// <summary>
+    /// This class has method to generate reports
+    /// </summary>
     class GenerateReport
     {
         TBSRepository _tBSRepository;
 
+        /// <summary>
+        /// Constructor with instance of IContext interface
+        /// </summary>
+        /// <param name="tbsDbContext"></param>
         public GenerateReport(IContext tbsDbContext)
         {
             _tBSRepository = new TBSRepository(tbsDbContext);
         }
 
+        /// <summary>
+        /// This method is responsible for generating PDF report of given criteria
+        /// </summary>
         public void GeneratePDFReport()
         {
             try
@@ -125,6 +135,11 @@ namespace TBS_Sales_Suit_App.BusinessLogic
         
     }
 
+        /// <summary>
+        /// This method returns list of customers who are eligible for discount >= 20%
+        /// </summary>
+        /// <param name="getCustomersList"></param>
+        /// <returns></returns>
         public List<Customer> Customers20PerDiscountValidity(List<Customer> getCustomersList)
         { 
             bool isExistingCustomer = false;
@@ -171,6 +186,11 @@ namespace TBS_Sales_Suit_App.BusinessLogic
             return custoumerList;
         }
 
+        /// <summary>
+        /// This method returns list of customers whose birthdays are upcoming
+        /// </summary>
+        /// <param name="getCustomersList"></param>
+        /// <returns></returns>
         public List<Customer> CustomerWithUpcomingBirthdays(List<Customer> getCustomersList)
         {
             bool isExistingCustomer = false;
@@ -202,6 +222,11 @@ namespace TBS_Sales_Suit_App.BusinessLogic
             return custoumerList;
         }
 
+        /// <summary>
+        /// This method returns list of customers with annual billing > 10000
+        /// </summary>
+        /// <param name="getCustomersList"></param>
+        /// <returns></returns>
         public List<Customer> CustomerWithAnnualBillingCriteria(List<Customer> getCustomersList)
         {
             List<Customer> custoumerList = new List<Customer>();     

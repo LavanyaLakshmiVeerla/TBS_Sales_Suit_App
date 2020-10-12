@@ -16,10 +16,17 @@ using TBS_Sales_Suit_App.Presentation;
 
 namespace TBS_Sales_Suit_App
 {
+    /// <summary>
+    /// Class to implement user login
+    /// </summary>
     public partial class WelcomeScreen : Form
     {
         IContext tbsDbContext;
         TBSRepository tbsRepository;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public WelcomeScreen()
         {
             InitializeComponent();
@@ -27,6 +34,11 @@ namespace TBS_Sales_Suit_App
             tbsRepository = new TBSRepository(tbsDbContext);
         }
 
+        /// <summary>
+        /// this method adds default users into the database when the database is first created
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WelcomeScreen_Load(object sender, EventArgs e)
         {
             try
@@ -43,6 +55,11 @@ namespace TBS_Sales_Suit_App
             }
         }
 
+        /// <summary>
+        /// his method is used to direct calls to check user login validation 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLogin_Click(object sender, EventArgs e)
         {
             User loggedInUser = new User();

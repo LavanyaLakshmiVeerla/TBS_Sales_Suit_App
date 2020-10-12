@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TBS_Sales_Suit_App.BusinessLogic
 {
+    /// <summary>
+    /// class to declare the properties of a user entity
+    /// </summary>
     public class User
     { 
         public int ID { get; set; }

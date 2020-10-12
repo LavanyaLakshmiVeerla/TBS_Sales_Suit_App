@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TBS_Sales_Suit_App.BusinessLogic
 {
+    /// <summary>
+    /// This class has properties and methods for importing sub classes
+    /// </summary>
     public abstract class ImportHelper : IHelper
     {
         protected List<Customer> customers = new List<Customer>();
@@ -16,10 +19,6 @@ namespace TBS_Sales_Suit_App.BusinessLogic
 
         public abstract void ImportData(string filePath);
 
-        public void WriteToDB()
-        {
-
-        }
     }
 
 }

@@ -30,6 +30,7 @@
         {
             this.tabMenu = new System.Windows.Forms.TabControl();
             this.tabImpExp = new System.Windows.Forms.TabPage();
+            this.btnGenerateReport = new System.Windows.Forms.Button();
             this.lblInputFormat = new System.Windows.Forms.Label();
             this.cbxInputFormat = new System.Windows.Forms.ComboBox();
             this.btnImport = new System.Windows.Forms.Button();
@@ -39,7 +40,6 @@
             this.txtBxDOBAdd = new System.Windows.Forms.TextBox();
             this.dtpValidityAdd = new System.Windows.Forms.DateTimePicker();
             this.dtpMemSinceAdd = new System.Windows.Forms.DateTimePicker();
-            this.dtpDOBAdd = new System.Windows.Forms.DateTimePicker();
             this.btnAddCustomer = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -103,7 +103,7 @@
             this.txtBxSaleCName = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnGenerateReport = new System.Windows.Forms.Button();
+            this.dtpDOBAdd = new System.Windows.Forms.DateTimePicker();
             this.tabMenu.SuspendLayout();
             this.tabImpExp.SuspendLayout();
             this.tabCustomerAdd.SuspendLayout();
@@ -136,6 +136,16 @@
             this.tabImpExp.TabIndex = 2;
             this.tabImpExp.Text = "Import/Export";
             this.tabImpExp.UseVisualStyleBackColor = true;
+            // 
+            // btnGenerateReport
+            // 
+            this.btnGenerateReport.Location = new System.Drawing.Point(204, 227);
+            this.btnGenerateReport.Name = "btnGenerateReport";
+            this.btnGenerateReport.Size = new System.Drawing.Size(121, 23);
+            this.btnGenerateReport.TabIndex = 3;
+            this.btnGenerateReport.Text = "Generate TBS Report";
+            this.btnGenerateReport.UseVisualStyleBackColor = true;
+            this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
             // 
             // lblInputFormat
             // 
@@ -233,14 +243,6 @@
             this.dtpMemSinceAdd.Name = "dtpMemSinceAdd";
             this.dtpMemSinceAdd.Size = new System.Drawing.Size(21, 20);
             this.dtpMemSinceAdd.TabIndex = 39;
-            // 
-            // dtpDOBAdd
-            // 
-            this.dtpDOBAdd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDOBAdd.Location = new System.Drawing.Point(332, 237);
-            this.dtpDOBAdd.Name = "dtpDOBAdd";
-            this.dtpDOBAdd.Size = new System.Drawing.Size(20, 20);
-            this.dtpDOBAdd.TabIndex = 38;
             // 
             // btnAddCustomer
             // 
@@ -831,15 +833,13 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // btnGenerateReport
+            // dtpDOBAdd
             // 
-            this.btnGenerateReport.Location = new System.Drawing.Point(204, 227);
-            this.btnGenerateReport.Name = "btnGenerateReport";
-            this.btnGenerateReport.Size = new System.Drawing.Size(121, 23);
-            this.btnGenerateReport.TabIndex = 3;
-            this.btnGenerateReport.Text = "Generate TBS Report";
-            this.btnGenerateReport.UseVisualStyleBackColor = true;
-            this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
+            this.dtpDOBAdd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDOBAdd.Location = new System.Drawing.Point(332, 237);
+            this.dtpDOBAdd.Name = "dtpDOBAdd";
+            this.dtpDOBAdd.Size = new System.Drawing.Size(20, 20);
+            this.dtpDOBAdd.TabIndex = 38;
             // 
             // MainForm
             // 
@@ -917,7 +917,6 @@
         private System.Windows.Forms.TextBox txtBxValidityAdd;
         private System.Windows.Forms.TextBox txtBxMemSinceAdd;
         private System.Windows.Forms.TextBox txtBxDOBAdd;
-        private System.Windows.Forms.DateTimePicker dtpDOBAdd;
         private System.Windows.Forms.DataGridView dgvSalesBooks;
         private System.Windows.Forms.ComboBox cbxBxSalesBooks;
         private System.Windows.Forms.Button btnSalesAddBook;
@@ -944,5 +943,6 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TextBox txtBxSalesDiscPercent;
         private System.Windows.Forms.Button btnGenerateReport;
+        private System.Windows.Forms.DateTimePicker dtpDOBAdd;
     }
 }

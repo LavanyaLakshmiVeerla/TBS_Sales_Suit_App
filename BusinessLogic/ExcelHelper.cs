@@ -9,17 +9,30 @@ using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Data.Entity.Core.Metadata.Edm;
 using TBS_Sales_Suit_App.BusinessLogic;
+using System.Windows.Forms;
 
 namespace TBS_Sales_Suit_App.BusinessLogic
 {
+    /// <summary>
+    /// This class has method to import data from Excel input file
+    /// </summary>
     public class ExcelHelper : ImportHelper
     {
         TBSRepository _tbsRepository;
+
+        /// <summary>
+        /// Constructor with object of Repository
+        /// </summary>
+        /// <param name="tbsRepository"></param>
         public ExcelHelper(TBSRepository tbsRepository)
         {
             this._tbsRepository = tbsRepository;
         }
 
+        /// <summary>
+        /// This method is responsible for Importing sample data from Excel input file
+        /// </summary>
+        /// <param name="filePath"></param>
         public override void ImportData(string filePath)
         {            
             Excel.Application xlApp = new Excel.Application();
@@ -236,7 +249,7 @@ namespace TBS_Sales_Suit_App.BusinessLogic
             }
             catch (Exception ex)
             {
-                throw ex;
+                MessageBox.Show("Failed to Import data from excel file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

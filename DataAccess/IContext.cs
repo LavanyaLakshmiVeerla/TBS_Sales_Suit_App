@@ -8,6 +8,9 @@ using TBS_Sales_Suit_App.BusinessLogic;
 
 namespace TBS_Sales_Suit_App.DataAccess
 {
+    /// <summary>
+    /// interface to declare the type of properties a repository class would require
+    /// </summary>
     public interface IContext
     {
          DbSet<Customer> Customers { get; set; }

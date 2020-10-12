@@ -8,6 +8,9 @@ using TBS_Sales_Suit_App.BusinessLogic;
 
 namespace TBS_Sales_Suit_App.DataAccess
 {
+    /// <summary>
+    /// class that connects with the database using entityframework to fetch data
+    /// </summary>
     public class TBSDbContext : DbContext , IContext
     {
         public DbSet<Customer> Customers { get; set; }

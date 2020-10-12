@@ -22,6 +22,9 @@ namespace TBS_Sales_Suit_App
         }
     }
 
+    /// <summary>
+    /// This class is responsible for splash screen to load followed by the welcome screen
+    /// </summary>
     class SplashScreenClass : WindowsFormsApplicationBase
     {
         protected override void OnCreateSplashScreen()
@@ -31,7 +34,6 @@ namespace TBS_Sales_Suit_App
 
         protected override void OnCreateMainForm()
         {
-            System.Threading.Thread.Sleep(500);
             this.MainForm = new WelcomeScreen();
         }
     }

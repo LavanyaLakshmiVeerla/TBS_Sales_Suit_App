@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TBS_Sales_Suit_App.BusinessLogic
 {
+    /// <summary>
+    /// Class to display purchase data on the data grid view
+    /// </summary>
     public class SalesItemsView
     {
         public string Name { get; set; }

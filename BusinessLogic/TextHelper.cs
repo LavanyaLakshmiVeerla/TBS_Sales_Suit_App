@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TBS_Sales_Suit_App.BusinessLogic
 {
+    /// <summary>
+    /// class to import data from text input file
+    /// </summary>
     public class TextHelper : ImportHelper
     {
         TBSRepository _tbsRepository;

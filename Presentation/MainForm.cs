@@ -14,6 +14,9 @@ using TBS_Sales_Suit_App.DataAccess;
 
 namespace TBS_Sales_Suit_App.Presentation
 {
+    /// <summary>
+    /// Class that interacts with the MainForm screens in the UI
+    /// </summary>
     public partial class MainForm : Form
     {
         IContext tbsDbContext;
@@ -25,6 +28,9 @@ namespace TBS_Sales_Suit_App.Presentation
         Customer currentCustomer = null;
         User loggedInUser = null;
 
+        /// <summary>
+        /// Constructor with no parameters
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
@@ -40,6 +46,10 @@ namespace TBS_Sales_Suit_App.Presentation
             bookQuantityMap = new Dictionary<Book, int>();
         }
 
+        /// <summary>
+        /// Constructor with User parameter
+        /// </summary>
+        /// <param name="user"></param>
         public MainForm(User user)
         {
             InitializeComponent();
@@ -59,11 +69,15 @@ namespace TBS_Sales_Suit_App.Presentation
             bookQuantityMap = new Dictionary<Book, int>();
         }
 
+        /// <summary>
+        /// This method will load all the available books in the Add purchase section
+        /// </summary>
         private void LoadBooks()
         {
             List<Book> books = this.tbsRepository.GetBooks();
+            this.cbxBxSalesBooks.Items.Clear();
 
-            foreach(Book book in books)
+            foreach (Book book in books)
             {
                 this.cbxBxSalesBooks.Items.Add(book);
                 this.cbxBxSalesBooks.DisplayMember = "Name";
@@ -71,6 +85,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
+        /// <summary>
+        /// This method directs the import call from UI to business logic layer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnImport_Click(object sender, EventArgs e)
         {
             if(cbxInputFormat.SelectedItem != null)
@@ -79,6 +98,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
+        /// <summary>
+        /// this method is used to logout of the user session
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLogout_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -88,6 +112,11 @@ namespace TBS_Sales_Suit_App.Presentation
             welcomeScreen.Show();
         }
 
+        /// <summary>
+        /// this method is used to get customer info as part of search feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GetCustomerInfo_Click(object sender, EventArgs e)
         {
             Customer customer = this.tbsRepository.SearchCustomer(txtBxCName.Text, txtBxContact.Text);
@@ -117,6 +146,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
+        /// <summary>
+        /// This method is used to direct calls to add customers to the database 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
             Customer customer = new Customer();
@@ -157,6 +191,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
+        /// <summary>
+        /// This method is used to direct calls to update customers to the database 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUpdateCustomer_Click(object sender, EventArgs e)
         {
             Customer customer = new Customer();
@@ -186,6 +225,11 @@ namespace TBS_Sales_Suit_App.Presentation
             MessageBox.Show("Updated customer information successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        /// <summary>
+        /// This method is used to direct calls to add book to a purchase record 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSalesAddBook_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtBxSalesQuantity.Text))
@@ -218,6 +262,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
+        /// <summary>
+        /// This method is used to direct calls to get customers from the database 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSalesGetCustomer_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtBxSaleCName.Text))
@@ -232,6 +281,7 @@ namespace TBS_Sales_Suit_App.Presentation
                 {
                     this.txtBxSalesCNameDisplay.Text = customer.Name;
                     currentCustomer = customer;
+                    LoadBooks();
                 }
                 else
                 {
@@ -244,8 +294,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
-        
-
+        /// <summary>
+        /// this method is used to direct calls to prepare purchase bill 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSalesPrepareBill_Click(object sender, EventArgs e)
         {
             try
@@ -327,6 +380,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
+        /// <summary>
+        /// this method will reset all the fields in the current screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReset_Click(object sender, EventArgs e)
         {
             this.txtBxSaleCName.Text = string.Empty;
@@ -345,6 +403,11 @@ namespace TBS_Sales_Suit_App.Presentation
             this.saleItemsView.Clear();
         }
 
+        /// <summary>
+        /// This method will load fields with data from the database on form load event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             if(loggedInUser.Role.Equals(StaffType.Manager))
@@ -360,6 +423,11 @@ namespace TBS_Sales_Suit_App.Presentation
             }
         }
 
+        /// <summary>
+        /// this method is used to direct calls to generate report using data from database 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
             GenerateReport report = new GenerateReport(tbsDbContext);
